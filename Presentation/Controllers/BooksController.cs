@@ -1,4 +1,5 @@
-﻿using Entities1.Exceptions1;
+﻿using Entities1.DTO;
+using Entities1.Exceptions1;
 using Entities1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
@@ -58,12 +59,12 @@ namespace Presentation.Controllers
 
         [HttpPut("{id}")]
 
-        public IActionResult UpdateOneBook(Book book, int id)
+        public IActionResult UpdateOneBook(BookDtoForUpdate bookDto, int id)
         {
 
-            _manager.BookService.UpdateOneBook(id, book, true);
+            _manager.BookService.UpdateOneBook(id, bookDto, true);
 
-            return Ok(book);
+            return Ok(bookDto);
         }
 
         [HttpDelete("{id}")]

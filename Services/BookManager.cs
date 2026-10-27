@@ -1,3 +1,5 @@
+using AutoMapper;
+using Entities1.DTO;
 using Entities1.Models;
 using Microsoft.Extensions.Logging;
 using Repositories.Contracts;
@@ -14,11 +16,13 @@ namespace Services
     {
         private readonly IRepositoryManager _manager;
         private readonly ILoggerService _logger;
+        private readonly IMapper _mapper;
 
-        public BookManager(IRepositoryManager manager,ILoggerService logger)
+        public BookManager(IRepositoryManager manager,ILoggerService logger,IMapper mapper)
         {
             _manager = manager;
             _logger = logger;
+            _mapper = mapper;
         }
         
         
@@ -58,7 +62,7 @@ namespace Services
             return _manager.Book.GetOneBookById(id, trackChanges);  
         }
 
-        public void UpdateOneBook(int id, Book book,bool trackChanges)
+        public void UpdateOneBook(int id, BookDtoForUpdate bookDto,bool trackChanges)
         {
             var entity = _manager.Book.GetOneBookById(id, trackChanges);
 
@@ -70,11 +74,11 @@ namespace Services
                 throw new Exception(message);
             }
 
-            if(book==null)
-                throw new ArgumentNullException(nameof (book));
 
-            entity.Title = book.Title;
-            entity.Price = book.Price;
+
+            //entity.Title = book.Title;
+            //entity.Price = book.Price;
+            entity = _mapper.Map<Book>(bookDto);
 
             _manager.Book.Update(entity);
             _manager.Save();
