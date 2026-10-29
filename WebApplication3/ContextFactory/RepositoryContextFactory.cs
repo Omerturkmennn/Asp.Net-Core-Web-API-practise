@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Repositories.EFcore;
 
@@ -17,7 +17,7 @@ namespace WebApplication3.ContextFactory
             //DbContextOptionsBuilder
 
             var builder = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseSqlServer(configuration.GetConnectionString("sqlconnection"),
+                .UseSqlServer(configuration.GetConnectionString("sqlConnection"),
                 prj => prj.MigrationsAssembly("WebApplication3"));
 
             return new RepositoryContext(builder.Options);

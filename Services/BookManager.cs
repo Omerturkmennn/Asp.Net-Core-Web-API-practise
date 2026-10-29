@@ -1,7 +1,7 @@
 using AutoMapper;
 using Entities1.DTO;
+using Entities1.Exceptions1;
 using Entities1.Models;
-using Microsoft.Extensions.Logging;
 using Repositories.Contracts;
 using Services.Contracts;
 using System;
@@ -24,64 +24,60 @@ namespace Services
             _logger = logger;
             _mapper = mapper;
         }
-        
-        
-        
-        public Book CreateOneBook(Book book)
-        {
-          
 
-           _manager.Book.CreateOneBook(book);
-           _manager.Save();
-            return book;
+        public BookDto CreateOneBook(BookDtoForInsertion bookDto)
+        {
+            var entity=_mapper.Map<Book>(bookDto);
+            _manager.Book.CreateOneBook(entity);
+            _manager.Save();
+            return _mapper.Map<BookDto>(entity);
         }
 
         public void DeleteOneBook(int id, bool trackChanges)
         {
-            var entity=_manager.Book.GetOneBookById(id,trackChanges);
-
-            if (entity == null)
-            {
-                string message = $"The book with id: {id} could not found";
-                _logger.LogInfo(message);
-                throw new Exception(message);
-            }
+            var entity = GetOneBookByIdAndCheckExists(id, trackChanges);
 
             _manager.Book.DeleteOneBook(entity);
             _manager.Save();
-            
         }
 
-        public IEnumerable<Book> GetAllBooks(bool trackChanges)
+        public IEnumerable<BookDto> GetAllBooks(bool trackChanges)
         {
-            return _manager.Book.GetAllBooks(trackChanges);
+            var books = _manager.Book.GetAllBooks(trackChanges);
+            return _mapper.Map<IEnumerable<BookDto>>(books);
         }
 
-        public Book GetOneBookById(int id, bool trackChanges)
+        public BookDto GetOneBookById(int id, bool trackChanges)
         {
-            return _manager.Book.GetOneBookById(id, trackChanges);  
+            var book = GetOneBookByIdAndCheckExists(id, trackChanges);
+            return _mapper.Map<BookDto>(book);
         }
 
         public void UpdateOneBook(int id, BookDtoForUpdate bookDto,bool trackChanges)
         {
-            var entity = _manager.Book.GetOneBookById(id, trackChanges);
-
-            if (entity == null)
-            {
-                string message = $"Book with id: {id} could not found ";
-               
-                _logger.LogInfo(message);
-                throw new Exception(message);
-            }
-
-
+            var entity = GetOneBookByIdAndCheckExists(id, trackChanges);
 
             //entity.Title = book.Title;
             //entity.Price = book.Price;
-            entity = _mapper.Map<Book>(bookDto);
+            // DTO -> mevcut entity üzerine map edilir (yeni nesne oluşturulmaz).
+            // Böylece EF Core'un takip ettiği nesne ile çakışma yaşanmaz.
+            _mapper.Map(bookDto, entity);
 
-            _manager.Book.Update(entity);
+            _manager.Book.UpdateOneBook(entity);
             _manager.Save();
+        }
+
+        private Book GetOneBookByIdAndCheckExists(int id, bool trackChanges)
+        {
+            var entity = _manager.Book.GetOneBookById(id, trackChanges);
+
+            if (entity is null)
+            {
+                _logger.LogInfo($"The book with id: {id} could not found");
+                throw new BookNotFound(id);
+            }
+
+            return entity;
         }
     }
 }

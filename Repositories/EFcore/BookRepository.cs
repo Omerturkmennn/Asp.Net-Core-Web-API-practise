@@ -1,4 +1,4 @@
-﻿using Entities1.Models;
+using Entities1.Models;
 using Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace Repositories.EFcore
         public IQueryable<Book> GetAllBooks(bool trackChanges) => FindAll(trackChanges);
        
 
-        public Book GetOneBookById(int id, bool trackChanges) => 
+        public Book? GetOneBookById(int id, bool trackChanges) => 
             FindByCondition(b=>b.Id==id,trackChanges).SingleOrDefault();
        
 

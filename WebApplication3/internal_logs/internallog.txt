@@ -23,3 +23,34 @@
 2026-10-25 23:00:40.3521 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\source\repos\WebApplication3\WebApplication3\nlog.config
 2026-10-25 23:14:20.9956 Info AppDomain Shutting down. LogFactory closing...
 2026-10-25 23:14:21.0040 Info LogFactory has been disposed.
+2026-10-29 20:45:38.7157 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-10-29 20:45:38.7274 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.2.5975. Product version: 6.2.2+d9ebf823ee8ba54977c336709928a96ea58c6259. GlobalAssemblyCache: False
+2026-10-29 20:45:38.7274 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\source\repos\WebApplication3\WebApplication3\nlog.config
+2026-10-29 20:46:30.6661 Info AppDomain Shutting down. LogFactory closing...
+2026-10-29 20:46:30.6661 Info LogFactory has been disposed.
+2026-10-29 20:52:50.7162 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-10-29 20:52:50.7295 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.2.5975. Product version: 6.2.2+d9ebf823ee8ba54977c336709928a96ea58c6259. GlobalAssemblyCache: False
+2026-10-29 20:52:50.7466 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\source\repos\WebApplication3\WebApplication3\nlog.config
+2026-10-29 20:53:30.9555 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-10-29 20:53:30.9664 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.2.5975. Product version: 6.2.2+d9ebf823ee8ba54977c336709928a96ea58c6259. GlobalAssemblyCache: False
+2026-10-29 20:53:30.9805 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\source\repos\WebApplication3\WebApplication3\nlog.config
+2026-10-29 20:55:11.7356 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-10-29 20:55:11.7472 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.2.5975. Product version: 6.2.2+d9ebf823ee8ba54977c336709928a96ea58c6259. GlobalAssemblyCache: False
+2026-10-29 20:55:11.7614 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\source\repos\WebApplication3\WebApplication3\nlog.config
+2026-10-29 20:57:35.3162 Info AppDomain Shutting down. LogFactory closing...
+2026-10-29 20:57:35.3215 Info LogFactory has been disposed.
+2026-10-29 21:02:24.7943 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-10-29 21:02:24.8056 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.2.5975. Product version: 6.2.2+d9ebf823ee8ba54977c336709928a96ea58c6259. GlobalAssemblyCache: False
+2026-10-29 21:02:24.8217 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\source\repos\WebApplication3\WebApplication3\nlog.config
+2026-10-29 21:05:55.6815 Info AppDomain Shutting down. LogFactory closing...
+2026-10-29 21:05:55.6815 Info LogFactory has been disposed.
+2026-10-29 21:06:19.6032 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-10-29 21:06:19.6032 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.2.5975. Product version: 6.2.2+d9ebf823ee8ba54977c336709928a96ea58c6259. GlobalAssemblyCache: False
+2026-10-29 21:06:19.6296 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\source\repos\WebApplication3\WebApplication3\nlog.config
+2026-10-29 21:06:43.2466 Info AppDomain Shutting down. LogFactory closing...
+2026-10-29 21:06:43.2466 Info LogFactory has been disposed.
+2026-10-29 21:13:27.8880 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-10-29 21:13:27.8880 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.2.5975. Product version: 6.2.2+d9ebf823ee8ba54977c336709928a96ea58c6259. GlobalAssemblyCache: False
+2026-10-29 21:13:27.9131 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\source\repos\WebApplication3\WebApplication3\nlog.config
+2026-10-29 21:14:50.7410 Info AppDomain Shutting down. LogFactory closing...
+2026-10-29 21:14:50.7455 Info LogFactory has been disposed.
