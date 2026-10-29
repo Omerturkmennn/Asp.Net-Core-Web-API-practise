@@ -23,24 +23,24 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks()
+        public async Task<IActionResult> GetAllBooksAsync()
         {
-            var books = _manager.BookService.GetAllBooks(false);
+            var books = await _manager.BookService.GetAllBooksAsync(false);
 
             return Ok(books);
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult GetOneBook([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> GetOneBookAsync([FromRoute(Name = "id")] int id)
         {
             // Kitap bulunamazsa servis katmanı BookNotFound fırlatır (404).
-            var book = _manager.BookService.GetOneBookById(id, false);
+            var book = await _manager.BookService.GetOneBookByIdAsync(id, false);
 
             return Ok(book);
         }
 
         [HttpPost]
-        public IActionResult CreateOneBook([FromBody] BookDtoForInsertion bookDto)
+        public async Task<IActionResult> CreateOneBookAsync([FromBody] BookDtoForInsertion bookDto)
         {
             if (bookDto is null)
                 return BadRequest();
@@ -50,13 +50,13 @@ namespace Presentation.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            var book=_manager.BookService.CreateOneBook(bookDto);
+            var book= await _manager.BookService.CreateOneBookAsync(bookDto);
 
             return StatusCode(201, book);
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult UpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate bookDto)
+        public async Task<IActionResult> UpdateOneBookAsync([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate bookDto)
         {
             if (bookDto is null)
                 return BadRequest();
@@ -69,18 +69,18 @@ namespace Presentation.Controllers
             if (bookDto.Id != id)
                 return BadRequest("The id in the route does not match the id in the body.");
 
-            _manager.BookService.UpdateOneBook(id, bookDto, false);
+            await _manager.BookService.UpdateOneBookAsync(id, bookDto, false);
 
             return Ok(bookDto);
         }
 
         [HttpDelete("{id:int}")]
-        public IActionResult DeleteOneBook([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> DeleteOneBookAsync([FromRoute(Name = "id")] int id)
         {
             // Silinen kitabı geri döndürmek için önce okunur (bulunamazsa 404).
-            var book = _manager.BookService.GetOneBookById(id, false);
+            var book = _manager.BookService.GetOneBookByIdAsync(id, false);
 
-            _manager.BookService.DeleteOneBook(id, true);
+            await _manager.BookService.DeleteOneBookAsync(id, true);
 
             return Ok(book);
         }

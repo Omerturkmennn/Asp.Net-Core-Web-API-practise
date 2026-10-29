@@ -25,59 +25,45 @@ namespace Services
             _mapper = mapper;
         }
 
-        public BookDto CreateOneBook(BookDtoForInsertion bookDto)
+        public async Task<BookDto> CreateOneBookAsync(BookDtoForInsertion bookDto)
         {
             var entity=_mapper.Map<Book>(bookDto);
             _manager.Book.CreateOneBook(entity);
-            _manager.Save();
+            await _manager.SaveAsync();
             return _mapper.Map<BookDto>(entity);
         }
 
-        public void DeleteOneBook(int id, bool trackChanges)
+        public async Task DeleteOneBookAsync(int id, bool trackChanges)
         {
-            var entity = GetOneBookByIdAndCheckExists(id, trackChanges);
+            var entity = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
 
             _manager.Book.DeleteOneBook(entity);
-            _manager.Save();
+            await _manager.SaveAsync();
         }
 
-        public IEnumerable<BookDto> GetAllBooks(bool trackChanges)
+        public async Task<IEnumerable<BookDto>> GetAllBooksAsync(bool trackChanges)
         {
-            var books = _manager.Book.GetAllBooks(trackChanges);
+            var books = await _manager.Book.GetAllBooksAsync(trackChanges);
             return _mapper.Map<IEnumerable<BookDto>>(books);
         }
 
-        public BookDto GetOneBookById(int id, bool trackChanges)
+        public async Task<BookDto> GetOneBookByIdAsync(int id, bool trackChanges)
         {
-            var book = GetOneBookByIdAndCheckExists(id, trackChanges);
+            var book =await GetOneBookByIdAsync(id, trackChanges);
             return _mapper.Map<BookDto>(book);
         }
 
-        public void UpdateOneBook(int id, BookDtoForUpdate bookDto,bool trackChanges)
+        public async  Task UpdateOneBookAsync(int id, BookDtoForUpdate bookDto,bool trackChanges)
         {
-            var entity = GetOneBookByIdAndCheckExists(id, trackChanges);
+            var entity = await _manager.Book.GetOneBookByIdAsync(id,trackChanges);
 
-            //entity.Title = book.Title;
-            //entity.Price = book.Price;
-            // DTO -> mevcut entity üzerine map edilir (yeni nesne oluşturulmaz).
-            // Böylece EF Core'un takip ettiği nesne ile çakışma yaşanmaz.
-            _mapper.Map(bookDto, entity);
+            
+            entity=_mapper.Map<Book>(bookDto);
 
-            _manager.Book.UpdateOneBook(entity);
-            _manager.Save();
+            _manager.Book.Update(entity);
+            await _manager.SaveAsync();
         }
 
-        private Book GetOneBookByIdAndCheckExists(int id, bool trackChanges)
-        {
-            var entity = _manager.Book.GetOneBookById(id, trackChanges);
-
-            if (entity is null)
-            {
-                _logger.LogInfo($"The book with id: {id} could not found");
-                throw new BookNotFound(id);
-            }
-
-            return entity;
-        }
+        
     }
 }
