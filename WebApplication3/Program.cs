@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using Presentation.ActionFilters;
 using Repositories.EFcore;
 using Services.Contracts;
 using WebApplication3.Extensions;
@@ -37,6 +38,9 @@ namespace WebApplication3
             builder.Services.ConfigureServiceManager();
             builder.Services.ConfigureLoggerService();
             builder.Services.AddAutoMapper(typeof(Program));
+            
+            builder.Services.AddScoped<ValidationFilterAttribute>();
+            builder.Services.AddScoped<LogFilterAttributes>();
 
             var app = builder.Build();
 
