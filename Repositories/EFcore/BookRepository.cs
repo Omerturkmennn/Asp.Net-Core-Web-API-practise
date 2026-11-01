@@ -1,4 +1,5 @@
 using Entities1.Models;
+using Entities1.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 using System;
@@ -21,9 +22,12 @@ namespace Repositories.EFcore
         public void DeleteOneBook(Book book) => Delete(book);
 
 
-        public  async Task<IEnumerable<Book>> GetAllBooksAsync(bool trackChanges) => 
-            await FindAll(trackChanges).ToListAsync();
-       
+        public async Task<PagedList<Book>> GetAllBooksAsync(BookParameters bookParameters, bool trackChanges)
+        {
+           var books= await FindAll(trackChanges)
+            .ToListAsync();
+            return PagedList<Book>.ToPagedList(books,bookParameters.PageNumber,bookParameters.PageSize);
+        }
 
         public async Task<Book?> GetOneBookByIdAsync(int id, bool trackChanges) => await
             FindByCondition(b=>b.Id==id,trackChanges).SingleOrDefaultAsync();

@@ -1,6 +1,7 @@
 using Entities1.DTO;
 using Entities1.Exceptions1;
 using Entities1.Models;
+using Entities1.RequestFeatures;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Presentation.Controllers
@@ -25,11 +27,13 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllBooksAsync()
+        public async Task<IActionResult> GetAllBooksAsync( [FromQuery] BookParameters bookParameters)
         {
-            var books = await _manager.BookService.GetAllBooksAsync(false);
+            var pagedResult = await _manager.BookService.GetAllBooksAsync(bookParameters,false);
 
-            return Ok(books);
+            Response.Headers.Add("X-Pagination",JsonSerializer.Serialize(pagedResult.metaData));
+
+            return Ok(pagedResult.books);
         }
 
         [HttpGet("{id:int}")]
@@ -42,6 +46,7 @@ namespace Presentation.Controllers
         }
 
         
+        
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
         public async Task<IActionResult> CreateOneBookAsync([FromBody] BookDtoForInsertion bookDto)
@@ -52,6 +57,7 @@ namespace Presentation.Controllers
             return StatusCode(201, book);
         }
 
+        
         
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
@@ -67,7 +73,7 @@ namespace Presentation.Controllers
         public async Task<IActionResult> DeleteOneBookAsync([FromRoute(Name = "id")] int id)
         {
             // Silinen kitabı geri döndürmek için önce okunur (bulunamazsa 404).
-            var book = _manager.BookService.GetOneBookByIdAsync(id, false);
+            var book = await _manager.BookService.GetOneBookByIdAsync(id, false);
 
             await _manager.BookService.DeleteOneBookAsync(id, true);
 
