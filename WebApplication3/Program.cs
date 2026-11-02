@@ -38,6 +38,7 @@ namespace WebApplication3
             builder.Services.ConfigureServiceManager();
             builder.Services.ConfigureLoggerService();
             builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.ConfigureCors();
             
             builder.Services.AddScoped<ValidationFilterAttribute>();
             builder.Services.AddScoped<LogFilterAttributes>();
@@ -60,6 +61,8 @@ namespace WebApplication3
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
