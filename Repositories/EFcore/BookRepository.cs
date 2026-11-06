@@ -28,6 +28,7 @@ namespace Repositories.EFcore
            var books= await FindAll(trackChanges)
                      .FilterBooks(bookParameters.MaxPrice,bookParameters.MinPrice)
                      .Search(bookParameters.SearchTerm)
+                     .Sort(bookParameters.OrderBy)
                      .ToListAsync();
             
             return PagedList<Book>.ToPagedList(books,bookParameters.PageNumber,bookParameters.PageSize);
