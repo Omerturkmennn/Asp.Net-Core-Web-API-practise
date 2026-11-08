@@ -3,6 +3,7 @@ using Repositories.Contracts;
 using Repositories.EFcore;
 using Services.Contracts;
 using Services;
+using Entities1.DTO;
 
 namespace WebApplication3.Extensions
 {
@@ -48,6 +49,10 @@ namespace WebApplication3.Extensions
             });
         }
 
+        public static void ConfigureDataShaper(this IServiceCollection services) 
+        {
+            services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>(); 
+        }
 
     }
 

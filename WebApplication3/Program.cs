@@ -39,6 +39,7 @@ namespace WebApplication3
             builder.Services.ConfigureLoggerService();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.ConfigureCors();
+            builder.Services.ConfigureDataShaper();
             
             builder.Services.AddScoped<ValidationFilterAttribute>();
             builder.Services.AddScoped<LogFilterAttributes>();
