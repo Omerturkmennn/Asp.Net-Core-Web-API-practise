@@ -4,6 +4,8 @@ using Repositories.EFcore;
 using Services.Contracts;
 using Services;
 using Entities1.DTO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace WebApplication3.Extensions
 {
@@ -52,6 +54,35 @@ namespace WebApplication3.Extensions
         public static void ConfigureDataShaper(this IServiceCollection services) 
         {
             services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>(); 
+        }
+
+
+        public static void AddCustomMediaTypes(this IServiceCollection services)
+        {
+            services.Configure<MvcOptions>(config =>
+            {
+               
+                var systemTextJsonOutputFormatter = config
+                    .OutputFormatters
+                    .OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault(); 
+
+                if (systemTextJsonOutputFormatter is not null)
+                {
+                    
+                    systemTextJsonOutputFormatter.SupportedMediaTypes
+                        .Add("application/vnd.omerturkmen.hateoas+json");
+                }
+
+                var xmlOutputFormatter= config
+                .OutputFormatters
+                .OfType<XmlDataContractSerializerOutputFormatter>()?.FirstOrDefault();
+
+                if(xmlOutputFormatter is not null)
+                {
+                    xmlOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.omerturkmen.hateoas+json");
+                }
+            });
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using Services.Contracts;
+﻿using Entities1.Models;
+using Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -28,7 +29,7 @@ namespace Services
         // =========================================================================
 
         // A) LİSTE İÇİN: Dışarıdan bir nesne listesi (entities) ve istenen alanlar ("title, price") gelir.
-        public IEnumerable<ExpandoObject> ShapeData(IEnumerable<T> entities, string fieldsString)
+        public IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldsString)
         {
             // 1. Önce "title, price" metnini al, gerçek C# özelliklerine dönüştür (Güvenlik filtrelemesi).
             var requiredFields = GetRequiredProperties(fieldsString);
@@ -38,7 +39,7 @@ namespace Services
         }
 
         // B) TEK NESNE İÇİN: Dışarıdan sadece 1 tane nesne (entity) gelir. (Örn: Sadece 1. kitabı getir isteği)
-        public ExpandoObject ShapeData(T entity, string fieldsString)
+        public ShapedEntity ShapeData(T entity, string fieldsString)
         {
             var requiredProperties = GetRequiredProperties(fieldsString);
             return FetchDataForEntity(entity, requiredProperties);
@@ -48,7 +49,7 @@ namespace Services
         // ARKA PLAN İŞLEMLERİ (MUTFAK - PRIVATE METOTLAR)
         // =========================================================================
 
-        // 1. GÜVENLİK FİLTRESİ: Kullanıcının istediği alanları (fieldsString) kontrol eden metot.
+        // Kullanıcının istediği alanları (fieldsString) kontrol eden metot.
         private IEnumerable<PropertyInfo> GetRequiredProperties(string fieldsString)
         {
             var requiredFields = new List<PropertyInfo>();
@@ -83,11 +84,11 @@ namespace Services
 
         // 2. ASIL YOĞURMA İŞLEMİ (TEK NESNE İÇİN)
         // Elimizde asıl veri (entity) ve sadece istenen alanların listesi (requiredProperties) var.
-        private ExpandoObject FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
+        private ShapedEntity FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
         {
             // ExpandoObject: Çalışma zamanında içine özellik ekleyebildiğimiz  C# nesnesi 
             // Arka planda aslında bir Dictionary<string, object> gibi çalışır.
-            var shapedObject = new ExpandoObject();
+            var shapedObject = new ShapedEntity();
 
             // Sadece kullanıcının istediği (filtrelenmiş) özellikleri dönüyoruz.
             foreach (var property in requiredProperties)
@@ -98,19 +99,21 @@ namespace Services
 
                 // Okuduğumuz bu değeri, ExpandoObject'in içine "Anahtar - Değer" olarak ekliyoruz.
                 // Örn: ("Title", "1984")
-                shapedObject.TryAdd(property.Name, objectPropertyValue);
+                shapedObject.Entity.TryAdd(property.Name, objectPropertyValue);
             }
 
+            var objectProperty = entity.GetType().GetProperty("Id");
+            shapedObject.Id = (int)objectProperty.GetValue(entity);
             // İçinde sadece kullanıcının istediği verilerin olduğu şekillenmiş objeyi geri dön.
             return shapedObject;
         }
 
         // 3. LİSTE YOĞURMA İŞLEMİ
         // Eğer dışarıdan tek bir nesne değil de bir liste geldiyse, bu metot devreye girer.
-        private IEnumerable<ExpandoObject> FetchData(IEnumerable<T> entities, IEnumerable<PropertyInfo> requiredProperties)
+        private IEnumerable<ShapedEntity> FetchData(IEnumerable<T> entities, IEnumerable<PropertyInfo> requiredProperties)
         {
             // Şekillenmiş nesneleri biriktireceğimiz boş liste.
-            var shapedData = new List<ExpandoObject>();
+            var shapedData = new List<ShapedEntity>();
 
             // Asıl veritabanından gelen tüm kayıtları tek tek dönüyoruz.
             foreach (var entity in entities)

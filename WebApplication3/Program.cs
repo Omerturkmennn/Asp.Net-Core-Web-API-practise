@@ -40,6 +40,7 @@ namespace WebApplication3
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.ConfigureCors();
             builder.Services.ConfigureDataShaper();
+            builder.Services.AddCustomMediaTypes();
             
             builder.Services.AddScoped<ValidationFilterAttribute>();
             builder.Services.AddScoped<LogFilterAttributes>();
