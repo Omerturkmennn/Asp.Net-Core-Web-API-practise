@@ -27,6 +27,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ValidateMediatypeAttribute))]
         public async Task<IActionResult> GetAllBooksAsync( [FromQuery] BookParameters bookParameters)
         {
             var pagedResult = await _manager.BookService.GetAllBooksAsync(bookParameters,false);

@@ -6,6 +6,7 @@ using Services;
 using Entities1.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Presentation.ActionFilters;
 
 namespace WebApplication3.Extensions
 {
@@ -35,6 +36,13 @@ namespace WebApplication3.Extensions
         public static void ConfigureLoggerService(this IServiceCollection services) 
         { 
             services.AddSingleton<ILoggerService,LoggerManager>();
+        }
+
+        public static void ConfigureActionFilters(this IServiceCollection services)
+        {
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<LogFilterAttributes>();
+            services.AddScoped<ValidateMediatypeAttribute>();
         }
 
         public static void ConfigureCors(this IServiceCollection services) 

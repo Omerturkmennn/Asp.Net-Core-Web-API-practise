@@ -1,12 +1,19 @@
-﻿using System;
+﻿using Entities1.LinkModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Entities1.LinkModels
+namespace Entities.LinkModels
 {
-    internal class LinkCollectionWrapper
+    public class LinkCollectionWrapper<T> : LinkResourceBase
     {
+        public List<T> Value { get; set; } = new List<T>();
+
+        public LinkCollectionWrapper()
+        {
+        }
+
+        public LinkCollectionWrapper(List<T> value)
+        {
+            Value = value;
+        }
     }
 }

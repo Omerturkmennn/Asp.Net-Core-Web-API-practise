@@ -41,9 +41,9 @@ namespace WebApplication3
             builder.Services.ConfigureCors();
             builder.Services.ConfigureDataShaper();
             builder.Services.AddCustomMediaTypes();
+            builder.Services.ConfigureActionFilters();
             
-            builder.Services.AddScoped<ValidationFilterAttribute>();
-            builder.Services.AddScoped<LogFilterAttributes>();
+          
 
             var app = builder.Build();
 
