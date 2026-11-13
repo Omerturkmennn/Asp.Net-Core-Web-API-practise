@@ -22,16 +22,16 @@ namespace Presentation.ActionFilters
                 return;
             }
 
-            var mediaType = context.HttpContext.Response.Headers["Accept"].FirstOrDefault();
+            var mediaType = context.HttpContext.Request.Headers["Accept"].FirstOrDefault();
 
-            if (MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue? outMediaType))
+            if (!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue? outMediaType))
             {
                 context.Result = new BadRequestObjectResult($"Media type not present." +
                     $"Please add accept header with required media type");
                 return;
             }
 
-            context.HttpContext.Items.Add("AcceptHeaderMediaTyoe", outMediaType);
+            context.HttpContext.Items.Add("AcceptHeaderMediaType", outMediaType);
         }
     }
 }

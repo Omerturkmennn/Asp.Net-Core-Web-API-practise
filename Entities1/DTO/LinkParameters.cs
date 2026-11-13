@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Entities1.RequestFeatures;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace Entities1.DTO
 {
-    internal class LinkParameters
+    public record LinkParameters
     {
+        public BookParameters BookParameters { get; init; }
+        public HttpContext HttpContext { get; init; }
     }
 }

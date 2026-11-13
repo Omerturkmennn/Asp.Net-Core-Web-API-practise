@@ -2,6 +2,7 @@
 using Entities1.Exceptions1;
 using Entities1.Models;
 using Entities1.RequestFeatures;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
@@ -28,13 +29,22 @@ namespace Presentation.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(ValidateMediatypeAttribute))]
+        [ProducesResponseType(typeof(object), StatusCodes.Status200OK, "application/json", "application/vnd.omerturkmen.hateoas+json")]
         public async Task<IActionResult> GetAllBooksAsync( [FromQuery] BookParameters bookParameters)
         {
-            var pagedResult = await _manager.BookService.GetAllBooksAsync(bookParameters,false);
+            var linkParameters = new LinkParameters
+            {
+                BookParameters = bookParameters,
+                HttpContext = HttpContext
+            };
 
-            Response.Headers.Add("X-Pagination",JsonSerializer.Serialize(pagedResult.metaData));
+            var result = await _manager.BookService.GetAllBooksAsync(linkParameters, false);
 
-            return Ok(pagedResult.books);
+            Response.Headers["X-Pagination"] = JsonSerializer.Serialize(result.metaData);
+
+            return result.linkResponse.HasLinks
+                ? Ok(result.linkResponse.LinkedEntities)
+                : Ok(result.linkResponse.ShapedEntities);
         }
 
         [HttpGet("{id:int}")]

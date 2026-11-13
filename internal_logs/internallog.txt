@@ -1,0 +1,6 @@
+2026-11-13 19:53:23.0780 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-11-13 19:53:23.0857 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.2.5975. Product version: 6.2.2+d9ebf823ee8ba54977c336709928a96ea58c6259. GlobalAssemblyCache: False
+2026-11-13 19:53:23.0857 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\.gemini\antigravity\brain\6f2f5b76-1b67-4cf6-a015-9f944a27cfb4\scratch\b4\NLog.config
+2026-11-13 22:55:07.9928 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-11-13 22:55:07.9928 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.2.5975. Product version: 6.2.2+d9ebf823ee8ba54977c336709928a96ea58c6259. GlobalAssemblyCache: False
+2026-11-13 22:55:08.0145 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\PC\.gemini\antigravity\brain\6f2f5b76-1b67-4cf6-a015-9f944a27cfb4\scratch\b5\NLog.config
