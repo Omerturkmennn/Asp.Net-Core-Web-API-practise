@@ -27,6 +27,7 @@ namespace Presentation.Controllers
             _manager = manager;
         }
 
+        [HttpHead]
         [HttpGet]
         [ServiceFilter(typeof(ValidateMediatypeAttribute))]
         [ProducesResponseType(typeof(object), StatusCodes.Status200OK, "application/json", "application/vnd.omerturkmen.hateoas+json")]
@@ -89,6 +90,14 @@ namespace Presentation.Controllers
             await _manager.BookService.DeleteOneBookAsync(id, true);
 
             return Ok(book);
+        }
+
+        [HttpOptions]
+        public IActionResult GetBooksOptions()
+        {
+            Response.Headers.Add("Allow", "GET, PUT, POST, DELETE, HEAD, OPTIONS");
+            
+            return Ok();
         }
     }
 }
