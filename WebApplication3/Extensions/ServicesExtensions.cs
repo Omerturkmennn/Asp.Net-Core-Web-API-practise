@@ -7,6 +7,8 @@ using Entities1.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Presentation.ActionFilters;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Presentation.Controllers;
 
 namespace WebApplication3.Extensions
 {
@@ -90,6 +92,18 @@ namespace WebApplication3.Extensions
                     xmlOutputFormatter.SupportedMediaTypes
                     .Add("application/vnd.omerturkmen.hateoas+json");
                 }
+            });
+        }
+
+        public static void ConfigureVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions=true; 
+                options.AssumeDefaultVersionWhenUnspecified=true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                
             });
         }
 
