@@ -44,6 +44,7 @@ namespace WebApplication3
             builder.Services.AddCustomMediaTypes();
             builder.Services.ConfigureActionFilters();
             builder.Services.AddScoped<IBookLinks, BookLinks>();
+            builder.Services.ConfigureVersioning();
             
           
 
