@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
@@ -32,7 +32,12 @@ namespace WebApplication3
 
 
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "WebApplication3", Version = "v1" });
+                s.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "WebApplication3", Version = "v2" });
+                s.OperationFilter<ApiVersionHeaderOperationFilter>();
+            });
 
             builder.Services.ConfigureSqlContext(builder.Configuration);
             builder.Services.ConfigureRepositoryManager();
@@ -45,7 +50,8 @@ namespace WebApplication3
             builder.Services.ConfigureActionFilters();
             builder.Services.AddScoped<IBookLinks, BookLinks>();
             builder.Services.ConfigureVersioning();
-            
+            builder.Services.ConfigureResponseCaching();
+            builder.Services.ConfigureHttpCacheHeaders();
           
 
             var app = builder.Build();
@@ -57,7 +63,11 @@ namespace WebApplication3
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(s =>
+                {
+                    s.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication3 v1");
+                    s.SwaggerEndpoint("/swagger/v2/swagger.json", "WebApplication3 v2");
+                });
             }
 
             if (app.Environment.IsProduction())
@@ -68,6 +78,8 @@ namespace WebApplication3
             app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");
+            app.UseResponseCaching();
+            app.UseHttpCacheHeaders();
 
             app.UseAuthorization();
 
