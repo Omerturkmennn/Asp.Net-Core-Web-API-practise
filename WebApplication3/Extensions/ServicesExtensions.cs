@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 using Repositories.EFcore;
 using Services.Contracts;
@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Presentation.ActionFilters;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Presentation.Controllers;
+using Marvin.Cache.Headers;
 
 namespace WebApplication3.Extensions
 {
@@ -104,6 +105,24 @@ namespace WebApplication3.Extensions
                 options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.ApiVersionReader = new HeaderApiVersionReader("api-version");
                 
+            });
+        }
+
+        public static void ConfigureResponseCaching(this IServiceCollection services)
+        {
+            services.AddResponseCaching();
+        }
+
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services)
+        {
+            services.AddHttpCacheHeaders(expirationOpt =>
+            {
+                expirationOpt.MaxAge = 70;
+                expirationOpt.CacheLocation = CacheLocation.Private;
+            },
+            validationOpt =>
+            {
+                validationOpt.MustRevalidate = false;
             });
         }
 

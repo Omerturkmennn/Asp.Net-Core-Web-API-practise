@@ -1,7 +1,8 @@
-﻿using Entities1.DTO;
+using Entities1.DTO;
 using Entities1.Exceptions1;
 using Entities1.Models;
 using Entities1.RequestFeatures;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
@@ -16,9 +17,12 @@ using System.Threading.Tasks;
 namespace Presentation.Controllers
 {
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [ServiceFilter(typeof(LogFilterAttributes))]
     [ApiController]
     [Route("api/books")]
+    //[ResponseCache(CacheProfileName = "5mins")]
+    [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 80)]
     public class BooksController : ControllerBase
     {
         private readonly IServiceManager _manager;
