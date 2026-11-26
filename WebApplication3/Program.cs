@@ -56,6 +56,9 @@ namespace WebApplication3
             builder.Services.AddMemoryCache();
             builder.Services.ConfigureRateLimitingOptions();
             builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddAuthentication();
+            builder.Services.ConfigureIdentity();
           
 
             var app = builder.Build();
@@ -86,6 +89,7 @@ namespace WebApplication3
             app.UseResponseCaching();
             app.UseHttpCacheHeaders();
 
+            app.UseAuthentication();    
             app.UseAuthorization();
 
 
